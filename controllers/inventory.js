@@ -1,6 +1,30 @@
+/**
+ * Author: Gerald Addo-Tetteh
+ * Project: Inventory Tracker
+ *
+ * Inventory controllers
+ * This file contains controllers for all the
+ * main site routes.
+ */
+
 const fetch = require("node-fetch");
+const { Parser } = require("json2csv");
 
 const constants = require("../utils/constants");
+const helpers = require("../utils/helpers");
+
+// initialization to parse to csv
+// column names (csvFields)
+const csvFields = [
+  "id",
+  "name",
+  "description",
+  "unitPrice",
+  "quantity",
+  "serialNo",
+];
+const csvParserOptions = { csvFields };
+const parser = new Parser(csvParserOptions);
 
 exports.getAllInventory = (req, res, next) => {
   fetch(constants.dbUrl)
@@ -8,11 +32,7 @@ exports.getAllInventory = (req, res, next) => {
     .then((inventory) => {
       res.render("index", { inventory });
     })
-    .catch((err) => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
-    });
+    .catch((err) => helpers.serverErrorHandler(err, next));
 };
 exports.getCreateItem = (req, res, next) => {
   res.render("create-edit-item", { edit: false, item: {}, messages: [] });
@@ -25,6 +45,7 @@ exports.postCreateItem = (req, res, next) => {
     quantity: req.body.quantity,
     serialNo: req.body.serialNo,
   };
+  // determine if inventory already exists
   fetch(`${constants.dbUrl}?name=${item.name}`)
     .then((response) => response.json())
     .then((items) => {
@@ -36,6 +57,7 @@ exports.postCreateItem = (req, res, next) => {
           messages: req.flash("Error"),
         });
       } else {
+        // add to database if not already in it
         fetch(constants.dbUrl, {
           method: "POST",
           body: JSON.stringify(item),
@@ -47,18 +69,10 @@ exports.postCreateItem = (req, res, next) => {
               res.status(201).redirect("/");
             }
           })
-          .catch((err) => {
-            const error = new Error(err);
-            error.httpStatusCode = 500;
-            return next(error);
-          });
+          .catch((err) => helpers.serverErrorHandler(err, next));
       }
     })
-    .catch((err) => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
-    });
+    .catch((err) => helpers.serverErrorHandler(err, next));
 };
 exports.getEditItem = (req, res, next) => {
   const id = req.params.id;
@@ -67,11 +81,7 @@ exports.getEditItem = (req, res, next) => {
     .then((item) => {
       res.render("create-edit-item", { edit: true, item, messages: [] });
     })
-    .catch((err) => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
-    });
+    .catch((err) => helpers.serverErrorHandler(err, next));
 };
 exports.postEditItem = (req, res, next) => {
   const id = req.body.id;
@@ -93,11 +103,7 @@ exports.postEditItem = (req, res, next) => {
         res.status(201).redirect("/");
       }
     })
-    .catch((err) => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
-    });
+    .catch((err) => helpers.serverErrorHandler(err, next));
 };
 exports.postDelete = (req, res, next) => {
   const id = req.body.id;
@@ -107,9 +113,16 @@ exports.postDelete = (req, res, next) => {
         res.redirect("/");
       }
     })
-    .catch((err) => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
-    });
+    .catch((err) => helpers.serverErrorHandler(err, next));
+};
+exports.getExportToCsv = (req, res, next) => {
+  fetch(constants.dbUrl)
+    .then((response) => response.json())
+    .then((items) => {
+      const csv = parser.parse(items);
+      // create file with filename
+      res.attachment("inventory.csv");
+      res.send(csv);
+    })
+    .catch((err) => helpers.serverErrorHandler(err, next));
 };
