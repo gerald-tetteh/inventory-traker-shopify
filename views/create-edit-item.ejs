@@ -1,0 +1,22 @@
+<%- include("./includes/header.ejs") %>
+
+<h1><%= edit ? "Edit Item" : "Create Item" %></h1>
+
+<a href="/">Back</a>
+
+<% messages.forEach(message => { %>
+<p class="message"><%= message %></p>
+<% }) %>
+
+<form action="<%= edit ? "/edit" : "/create" %>" method="post">
+  <input type="text" hidden name="_csrf" value="<%= csrfToken %>">
+  <input type="text" name="name" value="<%= item.name ?? "" %>" placeholder="Name" required>
+  <input type="text" name="description" value="<%= item.description ?? "" %>" placeholder="Description" required>
+  <input type="number" name="unitPrice" value="<%= item.unitPrice ?? "" %>" step="0.01" placeholder="Unit Price"
+    required>
+  <input type="number" name="quantity" value="<%= item.quantity ?? "" %>" step="1" placeholder="Quantity" required>
+  <input type="text" name="serialNo" value="<%= item.serialNo ?? "" %>" placeholder="Serial Number" required>
+  <input class="submit" type="submit" value="<%= edit ? "Edit Item" : "Create Item" %>">
+</form>
+
+<%- include("./includes/footer.ejs") %>
