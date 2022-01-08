@@ -1,5 +1,4 @@
 const express = require("express");
-const { route } = require("express/lib/router");
 
 const inventoryController = require("../controllers/inventory");
 
@@ -10,5 +9,6 @@ router.get("/create", inventoryController.getCreateItem);
 router.post("/create", inventoryController.postCreateItem);
 router.get("/edit/:id", inventoryController.getEditItem);
 router.post("/edit", inventoryController.postEditItem);
+router.post("/delete", inventoryController.postDelete);
 
 module.exports = router;

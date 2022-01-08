@@ -20,8 +20,8 @@
       "id": 3,
       "name": "Samsung Galaxy S21 Ultra",
       "description": "Samsung Galaxy S21 Ultra 5G, 256GB, 12GB RAM",
-      "unitPrice": 1394.81,
-      "quantity": 35,
+      "unitPrice": "1394.81",
+      "quantity": "20",
       "serialNo": "SSG 554S21"
     },
     {

@@ -5,6 +5,8 @@ const session = require("express-session");
 require("dotenv").config();
 
 const inventoryRoutes = require("./routes/inventory");
+const errorRoutes = require("./routes/errors");
+const errorsController = require("./controllers/errors");
 
 const app = express();
 const csurfProtection = csurf();
@@ -29,5 +31,7 @@ app.use((req, res, next) => {
 });
 
 app.use(inventoryRoutes);
+app.use(errorRoutes);
+app.use(errorsController.get500);
 
 app.listen(3000);

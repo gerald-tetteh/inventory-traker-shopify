@@ -8,7 +8,11 @@ exports.getAllInventory = (req, res, next) => {
     .then((inventory) => {
       res.render("index", { inventory });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 exports.getCreateItem = (req, res, next) => {
   res.render("create-edit-item", { edit: false, item: {}, messages: [] });
@@ -39,13 +43,22 @@ exports.postCreateItem = (req, res, next) => {
         })
           .then((response) => {
             if (response.ok) {
+              req.flash("Info", `${item.name} has been added to the inventory`);
               res.status(201).redirect("/");
             }
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
+          });
       }
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 exports.getEditItem = (req, res, next) => {
   const id = req.params.id;
@@ -54,6 +67,49 @@ exports.getEditItem = (req, res, next) => {
     .then((item) => {
       res.render("create-edit-item", { edit: true, item, messages: [] });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
-exports.postEditItem = (req, res, next) => {};
+exports.postEditItem = (req, res, next) => {
+  const id = req.body.id;
+  const item = {
+    name: req.body.name,
+    description: req.body.description,
+    unitPrice: req.body.unitPrice,
+    quantity: req.body.quantity,
+    serialNo: req.body.serialNo,
+  };
+  fetch(`${constants.dbUrl}/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify(item),
+    headers: { "Content-Type": "application/json" },
+  })
+    .then((response) => {
+      if (response.ok) {
+        req.flash("Info", `${item.name} has been updated`);
+        res.status(201).redirect("/");
+      }
+    })
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+};
+exports.postDelete = (req, res, next) => {
+  const id = req.body.id;
+  fetch(`${constants.dbUrl}/${id}`, { method: "DELETE" })
+    .then((response) => {
+      if (response.ok) {
+        res.redirect("/");
+      }
+    })
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+};
