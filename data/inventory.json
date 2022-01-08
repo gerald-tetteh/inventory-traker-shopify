@@ -4,33 +4,33 @@
       "id": 1,
       "name": "Dell XPS 13",
       "description": "Intel Core i7-1165G7, 16GB RAM, 512GB M.2 NVMe SSD",
-      "unit_price": 1919.99,
+      "unitPrice": 1919.99,
       "quantity": 20,
-      "serial_no": "XPS 5540SW"
+      "serialNo": "XPS 5540SW"
     },
     {
       "id": 2,
       "name": "Apple MacBook Pro (13-inch, M1)",
       "description": "Apple M1, 16GB RAM, 1TB SDD",
-      "unit_price": 1499.0,
+      "unitPrice": 1499,
       "quantity": 15,
-      "serial_no": "MBP 3454M1"
+      "serialNo": "MBP 3454M1"
     },
     {
       "id": 3,
       "name": "Samsung Galaxy S21 Ultra",
       "description": "Samsung Galaxy S21 Ultra 5G, 256GB, 12GB RAM",
-      "unit_price": 1394.81,
-      "quantity": 35,
-      "serial_no": "SSG 554S21"
+      "unitPrice": "1394.81",
+      "quantity": "20",
+      "serialNo": "SSG 554S21"
     },
     {
       "id": 4,
       "name": "Galaxy Buds Pro",
       "description": "Intelligent ANC, Immersive Sound, Auto Switch, Bluetooth v5.0",
-      "unit_price": 83.59,
+      "unitPrice": 83.59,
       "quantity": 5,
-      "serial_no": "GBP 5540PR"
+      "serialNo": "GBP 5540PR"
     }
   ]
 }
