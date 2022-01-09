@@ -4,7 +4,7 @@ This repository contains the solution to the Shopify backend internship challeng
 
 ## Installation
 
-1. Install the latest version of [Node.js](https://nodejs.org/en/) operating system.
+1. Install the latest version of [Node.js](https://nodejs.org/en/) on your operating system.
 1. After installing open a terminal and type:
 
 ```shell
@@ -27,19 +27,25 @@ npm install
 npm install nodemon --save-dev
 ```
 
+7. Create a file named ".env" in the root of the project. Open the file and add a key value pair in the format below. The key must be same as the one show below the value can be any thing you choose.
+
+```
+SECRET_KEY=<your custom key>
+```
+
 7. Open a new terminal and navigate to the project folder. Then in the terminal type
 
 ```shell
 npm run start-db-server
 ```
 
-8. In the first terminal open type:
+9. In the first terminal open type:
 
 ```shell
 npm start
 ```
 
-9. The application would be open on **localhost:3000**.
+10. The application would be open on **localhost:3000**.
 
 ## Author: Gerald Addo-Tetteh
 
