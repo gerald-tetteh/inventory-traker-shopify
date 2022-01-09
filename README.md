@@ -30,10 +30,10 @@ npm install nodemon --save-dev
 7. Create a file named ".env" in the root of the project. Open the file and add a key value pair in the format below. The key must be same as the one show below the value can be any thing you choose.
 
 ```
-SECRET_KEY=<your custom key>
+SESSION_SECRET=<your custom key>
 ```
 
-7. Open a new terminal and navigate to the project folder. Then in the terminal type
+8. Open a new terminal and navigate to the project folder. Then in the terminal type
 
 ```shell
 npm run start-db-server
